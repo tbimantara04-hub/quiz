@@ -11,18 +11,15 @@ jobs:
   test:
     runs-on: ubuntu-latest
 
-    services:
-      mysql:
-        image: mysql:5.7
-        env:
-          MYSQL_ALLOW_EMPTY_PASSWORD: "yes"
-          MYSQL_DATABASE: quiz_pengupil
-        ports:
-          - "3306:3306"
-        options: --health-cmd="mysqladmin ping -h localhost" --health-interval=10s --health-timeout=5s --health-retries=3
-
     steps:
     - uses: actions/checkout@v3
+
+    - name: Set up MySQL
+      uses: shogo82148/actions-setup-mysql@v1
+      with:
+        mysql-version: '5.7'
+        root-password: ''
+        auto-start: true
 
     - name: Set up PHP
       uses: shivammathur/setup-php@v2
@@ -32,6 +29,7 @@ jobs:
 
     - name: Import Database
       run: |
+        mysql -h 127.0.0.1 -u root -e "CREATE DATABASE quiz_pengupil;"
         mysql -h 127.0.0.1 -u root quiz_pengupil < db/quiz_pengupil.sql
 
     - name: Start PHP Server
