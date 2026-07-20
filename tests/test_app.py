@@ -33,16 +33,17 @@ class AppTest(unittest.TestCase):
         
         username = f"testuser_{int(time.time())}"
         
-        driver.find_element(By.ID, "username").send_keys(username)
+        driver.find_element(By.ID, "name").send_keys("Test Name")
         driver.find_element(By.ID, "InputEmail").send_keys(f"{username}@test.com")
+        driver.find_element(By.ID, "username").send_keys(username)
         driver.find_element(By.ID, "InputPassword").send_keys("password123")
-        driver.find_element(By.ID, "InputPassword2").send_keys("password123")
+        driver.find_element(By.ID, "InputRePassword").send_keys("password123")
         
         driver.find_element(By.NAME, "submit").click()
         
-        # Should redirect to login.php
-        WebDriverWait(driver, 5).until(EC.url_contains("login.php"))
-        self.assertIn("login.php", driver.current_url)
+        # Should redirect to index.php
+        WebDriverWait(driver, 5).until(EC.url_contains("index.php"))
+        self.assertIn("index.php", driver.current_url)
 
     def test_03_login_empty_fields(self):
         driver = self.driver
