@@ -39,6 +39,8 @@ jobs:
     - name: Import Database
       run: |
         mysql -h 127.0.0.1 -u root quiz_pengupil < db/quiz_pengupil.sql
+        # Update password user 'ahmad' ke 'password123' agar sesuai dengan testcase
+        mysql -h 127.0.0.1 -u root quiz_pengupil -e "UPDATE users SET password='\$2y\$10\$25SITQTDZvTioM.TT65IXedugTtFeUNFnXJCAk/LK9VA93ItXCvvq' WHERE username='ahmad';"
 
     - name: Start PHP Server
       run: |
