@@ -59,4 +59,4 @@ jobs:
       env:
         BASE_URL: http://localhost:8000
       run: |
-        python tests/test_app.py
+        python tests/test_auth.py
