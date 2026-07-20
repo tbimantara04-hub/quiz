@@ -42,10 +42,21 @@ jobs:
         # Update password user 'ahmad' ke 'password123' agar sesuai dengan testcase
         mysql -h 127.0.0.1 -u root quiz_pengupil -e "UPDATE users SET password='\$2y\$10\$25SITQTDZvTioM.TT65IXedugTtFeUNFnXJCAk/LK9VA93ItXCvvq' WHERE username='ahmad';"
 
+    - name: Patch koneksi.php for CI (use 127.0.0.1 instead of localhost)
+      run: |
+        sed -i "s/'localhost'/'127.0.0.1'/g" koneksi.php
+        echo "koneksi.php after patch:"
+        cat koneksi.php
+
     - name: Start PHP Server
       run: |
         php -S localhost:8000 &
-        sleep 3 # Wait for the server to start
+        # Wait until PHP server is actually responding
+        until curl -s http://localhost:8000/login.php > /dev/null; do
+          echo "Waiting for PHP server..."
+          sleep 1
+        done
+        echo "PHP server is ready!"
 
     - name: Set up Python
       uses: actions/setup-python@v4
