@@ -14,7 +14,7 @@ class AppTest(unittest.TestCase):
         chrome_options.add_argument('--no-sandbox')
         chrome_options.add_argument('--disable-dev-shm-usage')
         self.driver = webdriver.Chrome(options=chrome_options)
-        self.base_url = os.getenv('BASE_URL', 'http://localhost:8000')
+        self.base_url = os.getenv('BASE_URL', 'http://localhost/quiz-pengupil-main')
 
     def test_01_register_empty_fields(self):
         driver = self.driver
